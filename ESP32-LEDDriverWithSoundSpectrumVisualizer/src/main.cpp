@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include "../lib/fix_fft/src/fix_fft.h"
 
 const int MICROPHONE_PIN = 33;
 const int SCREEN_WIDTH = 128; 
@@ -9,10 +10,16 @@ const int SCREEN_HEIGHT = 64;
 const int OLED_RESET_PIN = -1;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET_PIN);
 
+const int SAMPLES_COUNT = 128;
+int8_t realis[SAMPLES_COUNT];
+int8_t imaginalis[SAMPLES_COUNT];
+const short y_delimiter = 60;
+int sample = 0;
+
 void setup() {
    Serial.begin(115200);
    pinMode(MICROPHONE_PIN, INPUT);
-   
+
    if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
       Serial.println(F("SSD1306 allocation failed"));
       return;
@@ -23,11 +30,26 @@ void setup() {
    display.clearDisplay();
    display.setTextSize(1);
    display.setTextColor(WHITE);
-   display.setCursor(0, 0);
-   display.println("*Spectrum Visualizer*");
-   display.display(); 
 }
 
 void loop() {
+   for(int i = 0; i < 128; ++i) {
+      sample = analogRead(MICROPHONE_PIN);
+      realis[i] = sample / 4 - 128;
+      imaginalis[i] = 0;
+   }
+
+   fix_fft(realis, imaginalis, 7, 0);
+
+   display.clearDisplay();
+   display.setCursor(0, 0);
+   display.println("*Spectrum Visualizer*");
   
+   for(int i = 1; i < SCREEN_HEIGHT; ++i) {
+      int data = sqrt(realis[i] * realis[i] + imaginalis[i] * imaginalis[i]);
+            
+      display.drawLine(i * 2, y_delimiter, i * 2, y_delimiter - data, WHITE);
+   }
+
+   display.display();  
 }
