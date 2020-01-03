@@ -2,6 +2,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "../lib/fix_fft/src/fix_fft.h"
+#include <WiFi.h>
 
 const int MICROPHONE_PIN = 33;
 const int SCREEN_WIDTH = 128; 
@@ -15,6 +16,9 @@ int8_t realis[SAMPLES_COUNT];
 int8_t imaginalis[SAMPLES_COUNT];
 const short y_delimiter = 60;
 int sample = 0;
+
+const char* WiFi_SSID = "CHANGE_ME";
+const char* WiFi_PASSWD = "CHANGE_ME";
 
 void setup() {
    Serial.begin(115200);
@@ -30,6 +34,37 @@ void setup() {
    display.clearDisplay();
    display.setTextSize(1);
    display.setTextColor(WHITE);
+
+   display.setCursor(0, 0);
+   display.println("Connecting to ");
+   display.println("");
+   display.println(WiFi_SSID);
+   display.println("");
+   display.print("network...");
+   display.display();
+   delay(1000);
+
+   WiFi.begin(WiFi_SSID, WiFi_PASSWD);
+   while(WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      display.print(".");
+      display.display();
+   }
+
+   display.clearDisplay();
+   display.setCursor(0,0);
+   display.println("Connected to WiFi!");
+   display.display();
+   delay(1500);
+
+   display.clearDisplay();
+   display.setCursor(0,0);
+   display.println("IP address: ");
+   display.println("");
+   display.println("");
+   display.println(WiFi.localIP());
+   display.display();
+   delay(2000);
 }
 
 void loop() {
