@@ -75,11 +75,6 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
     if(client) {
         display.println("Client connected!");
         display.display();
-        delay(500);
-        display.println("");
-        display.println("Client sent request: ");
-        display.println("");
-        display.display();
 
         while(client.connected()) {
             if(client.available()) {
@@ -90,16 +85,13 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
             }
         }
 
-        display.println(request.c_str());
-        display.display();
-
         client.stop();
     } else {
         display.println("Cannot obtain");
         display.println("client's connection");
         display.display();
     }
-    delay(4000);
+    delay(2000);
 
     return request;
 }
