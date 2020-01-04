@@ -44,7 +44,7 @@ bool connectToWiFi(const char* WiFi_SSID, const char* WiFi_PASSWD, Adafruit_SSD1
     display.println("");
     display.println(WiFi.localIP());
     display.display();
-    delay(2000);
+    delay(500);
     return true;
 }
 
@@ -95,7 +95,7 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
         display.println("client's connection");
         display.display();
     }
-    delay(2000);
+    delay(500);
 
     return request;
 }
