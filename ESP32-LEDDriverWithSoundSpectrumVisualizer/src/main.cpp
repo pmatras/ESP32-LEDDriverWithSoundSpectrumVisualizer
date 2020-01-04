@@ -21,6 +21,10 @@ int sample = 0;
 const char* WiFi_SSID = "CHANGE_ME";
 const char* WiFi_PASSWD = "CHANGE_ME";
 
+const int SERVER_PORT = 1560;
+WiFiServer server(SERVER_PORT);
+WiFiClient client;
+
 void setup() {
    Serial.begin(115200);
    pinMode(MICROPHONE_PIN, INPUT);
@@ -37,6 +41,8 @@ void setup() {
    display.setTextColor(WHITE);
 
    connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
+   startServer(server, SERVER_PORT, display);
+   client = waitForClientConnection(server);
 }
 
 void loop() {

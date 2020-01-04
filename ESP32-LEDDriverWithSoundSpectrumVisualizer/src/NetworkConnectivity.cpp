@@ -32,3 +32,21 @@ void connectToWiFi(const char* WiFi_SSID, const char* WiFi_PASSWD, Adafruit_SSD1
     display.display();
     delay(2000);
 }
+
+void startServer(WiFiServer &server, const int &port, Adafruit_SSD1306 &display) {
+    server.begin();
+    display.println("");
+    display.println("");
+    display.print("Server port: ");
+    display.println(port);
+    display.display();
+}
+
+WiFiClient waitForClientConnection(WiFiServer &server) {
+    WiFiClient client;
+    do {
+        client = server.available();
+    } while(!client);
+
+    return client;
+}
