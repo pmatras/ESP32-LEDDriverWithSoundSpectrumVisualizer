@@ -91,6 +91,8 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
 
         display.println(request.c_str());
         display.display();
+
+        client.stop();
     } else {
         display.println("Cannot obtain");
         display.println("client's connection");
