@@ -26,6 +26,9 @@ const int SERVER_PORT = 1560;
 WiFiServer server(SERVER_PORT);
 WiFiClient client;
 
+std::string mode = "";
+RGBColor color;
+
 void setup() {
    Serial.begin(115200);
    pinMode(MICROPHONE_PIN, INPUT);
@@ -46,6 +49,7 @@ void setup() {
       startServer(server, SERVER_PORT, display);
       client = waitForClientConnection(server);
       std::string request = getClientsRequestAndSendResponse(client, display);
+      mode = parseClientsRequest(request, color, display);      
    } else {
       display.clearDisplay();
       display.setCursor(0, 0);

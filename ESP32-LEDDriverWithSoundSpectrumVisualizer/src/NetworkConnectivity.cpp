@@ -1,4 +1,5 @@
 #include "NetworkConnectivity.h"
+#include <ArduinoJson.h>
 
 bool connectToWiFi(const char* WiFi_SSID, const char* WiFi_PASSWD, Adafruit_SSD1306 &display) {
     int timeoutCounter = 0;
@@ -101,4 +102,37 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
     delay(4000);
 
     return request;
+}
+
+std::string parseClientsRequest(std::string &request, RGBColor &color, Adafruit_SSD1306 &display) {
+    DynamicJsonDocument parser(90);
+    deserializeJson(parser, request.c_str());
+    const char* temp = parser["mode"];
+    
+    std::string mode(temp);
+    
+    if(mode == "RGB") {
+        color.R = parser["R"];
+        color.G = parser["G"];
+        color.B = parser["B"];
+    }
+
+    display.clearDisplay();
+    display.setCursor(0,0);
+    display.println("mode: ");
+    display.println("");
+    display.println(mode.c_str());
+    display.println("");
+    if(mode == "RGB") {
+        display.print("R: ");
+        display.println(color.R);
+        display.print("G: ");
+        display.println(color.G);
+        display.print("B: ");
+        display.println(color.B);
+    }
+    display.display();
+    delay(4000);
+
+    return mode;        
 }
