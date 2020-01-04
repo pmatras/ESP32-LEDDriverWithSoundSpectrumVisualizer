@@ -40,9 +40,20 @@ void setup() {
    display.setTextSize(1);
    display.setTextColor(WHITE);
 
-   connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
-   startServer(server, SERVER_PORT, display);
-   client = waitForClientConnection(server);
+   bool isConnected = connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
+   if(isConnected) {
+      startServer(server, SERVER_PORT, display);
+      client = waitForClientConnection(server);
+   } else {
+      display.clearDisplay();
+      display.setCursor(0, 0);
+      display.println("Cannot start server!");
+      display.println("");
+      display.println("ESP not connected");
+      display.println("to WiFi network");
+      display.display();
+      delay(4000);
+   }
 }
 
 void loop() {
