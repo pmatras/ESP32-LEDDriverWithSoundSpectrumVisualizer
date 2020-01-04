@@ -3,6 +3,7 @@
 #include <Adafruit_SSD1306.h>
 #include "../lib/fix_fft/src/fix_fft.h"
 #include <WiFi.h>
+#include "NetworkConnectivity.h"
 
 const int MICROPHONE_PIN = 33;
 const int SCREEN_WIDTH = 128; 
@@ -35,36 +36,7 @@ void setup() {
    display.setTextSize(1);
    display.setTextColor(WHITE);
 
-   display.setCursor(0, 0);
-   display.println("Connecting to ");
-   display.println("");
-   display.println(WiFi_SSID);
-   display.println("");
-   display.print("network...");
-   display.display();
-   delay(1000);
-
-   WiFi.begin(WiFi_SSID, WiFi_PASSWD);
-   while(WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      display.print(".");
-      display.display();
-   }
-
-   display.clearDisplay();
-   display.setCursor(0,0);
-   display.println("Connected to WiFi!");
-   display.display();
-   delay(1500);
-
-   display.clearDisplay();
-   display.setCursor(0,0);
-   display.println("IP address: ");
-   display.println("");
-   display.println("");
-   display.println(WiFi.localIP());
-   display.display();
-   delay(2000);
+   connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
 }
 
 void loop() {
