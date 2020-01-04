@@ -4,6 +4,7 @@
 #include "../lib/fix_fft/src/fix_fft.h"
 #include <WiFi.h>
 #include "NetworkConnectivity.h"
+#include <string>
 
 const int MICROPHONE_PIN = 33;
 const int SCREEN_WIDTH = 128; 
@@ -44,6 +45,7 @@ void setup() {
    if(isConnected) {
       startServer(server, SERVER_PORT, display);
       client = waitForClientConnection(server);
+      std::string request = getClientsRequestAndSendResponse(client, display);
    } else {
       display.clearDisplay();
       display.setCursor(0, 0);

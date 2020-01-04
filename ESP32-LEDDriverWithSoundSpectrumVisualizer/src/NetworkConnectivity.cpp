@@ -64,3 +64,39 @@ WiFiClient waitForClientConnection(WiFiServer &server) {
 
     return client;
 }
+
+std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD1306 &display) {
+    std::string request = "";
+
+    display.clearDisplay();
+    display.setCursor(0,0);
+
+    if(client) {
+        display.println("Client connected!");
+        display.display();
+        delay(500);
+        display.println("");
+        display.println("Client sent request: ");
+        display.println("");
+        display.display();
+
+        while(client.connected()) {
+            if(client.available()) {
+                char character = client.read();
+                request += character;
+            } else {
+                client.println("ESP accepted your request!");
+            }
+        }
+
+        display.println(request.c_str());
+        display.display();
+    } else {
+        display.println("Cannot obtain");
+        display.println("client's connection");
+        display.display();
+    }
+    delay(4000);
+
+    return request;
+}
