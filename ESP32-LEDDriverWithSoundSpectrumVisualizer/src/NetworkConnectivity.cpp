@@ -81,7 +81,11 @@ std::string getClientsRequestAndSendResponse(WiFiClient &client, Adafruit_SSD130
                 char character = client.read();
                 request += character;
             } else {
-                client.println("ESP accepted your request!");
+                if(request.find("RGB") != std::string::npos) {
+                    client.println("RGB mode chosen!");
+                } else {
+                    client.println("Music reactive mode chosen!");
+                }
             }
         }
 
