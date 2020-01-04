@@ -115,8 +115,7 @@ std::string parseClientsRequest(std::string &request, RGBColor &color, Adafruit_
 
     display.clearDisplay();
     display.setCursor(0,0);
-    display.println("mode: ");
-    display.println("");
+    display.print("MODE: ");
     display.println(mode.c_str());
     display.println("");
     if(mode == "RGB") {
@@ -128,7 +127,7 @@ std::string parseClientsRequest(std::string &request, RGBColor &color, Adafruit_
         display.println(color.B);
     }
     display.display();
-    delay(4000);
+    delay(1000);
 
     return mode;        
 }
