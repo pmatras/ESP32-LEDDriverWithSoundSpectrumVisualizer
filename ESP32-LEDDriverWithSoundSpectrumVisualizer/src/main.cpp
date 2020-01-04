@@ -47,9 +47,16 @@ void setup() {
    bool isConnected = connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
    if(isConnected) {
       startServer(server, SERVER_PORT, display);
-      client = waitForClientConnection(server);
-      std::string request = getClientsRequestAndSendResponse(client, display);
-      mode = parseClientsRequest(request, color, display);      
+      do {
+         client = waitForClientConnection(server);
+         std::string request = getClientsRequestAndSendResponse(client, display);
+         mode = parseClientsRequest(request, color, display);
+         display.println("");
+         display.println("");
+         display.println("WAITING FOR COMMANDS");
+         display.display();
+      } while(mode != "music_reactive");
+      server.close();
    } else {
       display.clearDisplay();
       display.setCursor(0, 0);
