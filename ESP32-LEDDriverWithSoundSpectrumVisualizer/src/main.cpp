@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "../lib/fix_fft/src/fix_fft.h"
+#include <fix_fft.h>
 #include <WiFi.h>
 #include "NetworkConnectivity.h"
 #include <string>
