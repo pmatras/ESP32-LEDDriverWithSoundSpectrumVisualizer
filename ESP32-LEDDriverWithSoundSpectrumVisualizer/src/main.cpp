@@ -5,6 +5,7 @@
 #include <WiFi.h>
 #include "NetworkConnectivity.h"
 #include <string>
+#include "LEDDriver.h"
 
 const int MICROPHONE_PIN = 33;
 const int SCREEN_WIDTH = 128; 
@@ -44,6 +45,9 @@ void setup() {
    display.setTextSize(1);
    display.setTextColor(WHITE);
 
+   setupLEDs();
+   turnOffLEDs();
+
    bool isConnected = connectToWiFi(WiFi_SSID, WiFi_PASSWD, display);
    if(isConnected) {
       startServer(server, SERVER_PORT, display);
@@ -55,6 +59,8 @@ void setup() {
          display.println("");
          display.println("WAITING FOR COMMANDS");
          display.display();
+         
+         setRGBColorForLEDs(color);
       } while(mode != "music_reactive");
       server.close();
    } else {
