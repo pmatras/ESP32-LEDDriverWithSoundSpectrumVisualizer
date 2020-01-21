@@ -7,5 +7,6 @@
 void setupLEDs();
 void turnOffLEDs();
 void setRGBColorForLEDs(RGBColor &color);
+void lightMusicReactive(const int &frequency);
 
 #endif
