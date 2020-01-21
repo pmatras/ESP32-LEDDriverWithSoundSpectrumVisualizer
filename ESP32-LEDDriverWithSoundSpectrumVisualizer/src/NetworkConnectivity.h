@@ -16,10 +16,10 @@ struct RGBColor {
       B = 0;
    }
 
-   RGBColor(const int &_R, const int &_G, const int &_B) {
-      R = _R;
-      G = _G;
-      B = _B;
+   RGBColor(const int &R, const int &G, const int &B) {
+      this->R = R;
+      this->G = G;
+      this->B = B;
    }
 };
 
