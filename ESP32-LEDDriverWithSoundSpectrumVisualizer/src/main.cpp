@@ -87,11 +87,15 @@ void loop() {
    display.clearDisplay();
    display.setCursor(0, 0);
    display.println("*Spectrum Visualizer*");
-  
+
    for(int i = 1; i < SCREEN_HEIGHT; ++i) {
       int data = sqrt(realis[i] * realis[i] + imaginalis[i] * imaginalis[i]);
-            
+      
       display.drawLine(i * 2, y_delimiter, i * 2, y_delimiter - data, WHITE);
+      
+      if(i <= 20) {
+         lightMusicReactive(data);
+      }
    }
 
    display.display();  
